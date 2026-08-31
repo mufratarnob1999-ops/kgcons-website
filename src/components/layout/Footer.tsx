@@ -23,8 +23,14 @@ export function Footer() {
               >
                 {site.contact.email}
               </a>
-              <span className="mt-1 block">{site.contact.location}</span>
             </p>
+            <ul className="mt-4 space-y-1 text-small text-muted">
+              {site.entities.map((entity) => (
+                <li key={entity.name}>
+                  {entity.name} — {entity.jurisdiction}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:col-span-6 md:col-start-7">

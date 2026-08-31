@@ -11,19 +11,60 @@ export const site = {
   domain: "kgcons.org",
   url: "https://kgcons.org",
 
-  /* Used as the browser tab title on the homepage and as the SEO default. */
   tagline: "Turn attention into growth.",
 
-  /* One sentence. Appears in search results and link previews. */
   description:
-    "A consultancy for businesses, creators and personal brands building a deliberate presence online. Strategy, content and growth.",
+    "Social media consultancy for businesses, creators and personal brands. Strategy, content and growth — with consultants you can actually reach.",
 
-  /* Replace with your real contact details before launch. */
+  founded: "2026",
+
+  /* The two registered entities. Shown in the footer and the legal pages. */
+  entities: [
+    { name: "Kishoreganj Consultancy LLC", jurisdiction: "Wyoming, USA" },
+    { name: "Kishoreganj Consultancy Ltd", jurisdiction: "Bangladesh" },
+  ],
+
+  founders: [
+    {
+      name: "Mufrat Mehrin Arnob",
+      role: "Founder",
+      background: "BSc Cybersecurity, CUNY. Diploma in Civil Engineering.",
+    },
+    {
+      name: "Hojaifa Ahmed Seyam",
+      role: "Founder",
+      background: "BSc Biotechnology, CUNY.",
+    },
+  ],
+
+  /* Languages the team works in. A real advantage — say it plainly. */
+  languages: ["English", "Bangla", "Hindi", "Urdu", "Spanish"],
+
   contact: {
-    email: "hello@kgcons.org",
-    location: "Kishoreganj, Bangladesh",
+    email: "mufrat@kgcons.org",
+    telegram: { handle: "@kgcons", href: "https://t.me/kgcons" },
+    phones: [
+      {
+        region: "United States",
+        display: "+1 347 866 6018",
+        tel: "+13478666018",
+        whatsapp: "13478666018",
+      },
+      {
+        region: "Bangladesh",
+        display: "+880 1401 217597",
+        tel: "+8801401217597",
+        whatsapp: "8801401217597",
+      },
+    ],
   },
 
   /* Add real profiles here as they go live. Empty entries are not rendered. */
   social: [] as { label: string; href: string }[],
 } as const;
+
+/** WhatsApp deep link for a given number, with the message pre-filled. */
+export function whatsappLink(number: string, message?: string) {
+  const base = `https://wa.me/${number}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}

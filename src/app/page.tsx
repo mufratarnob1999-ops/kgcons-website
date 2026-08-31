@@ -1,16 +1,23 @@
 import { Hero } from "@/components/sections/Hero";
+import { Positioning } from "@/components/sections/Positioning";
+import { ServicesSummary } from "@/components/sections/ServicesSummary";
+import { MethodSummary } from "@/components/sections/MethodSummary";
+import { Perspective } from "@/components/sections/Perspective";
+import { HowToWorkWithUs } from "@/components/sections/HowToWorkWithUs";
+import { Faq } from "@/components/sections/Faq";
+import { FinalCta } from "@/components/sections/FinalCta";
 
-/*
-  The homepage is assembled from section components, one per band of the
-  page. Sections are added here in the order they appear.
-
-  Still to come: positioning, services, methodology, perspective,
-  engagements, consultation, about, FAQ, final call to action.
-*/
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <Positioning />
+      <ServicesSummary />
+      <MethodSummary />
+      <Perspective />
+      <HowToWorkWithUs />
+      <Faq />
+      <FinalCta />
     </>
   );
 }
