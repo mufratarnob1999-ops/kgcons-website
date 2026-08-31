@@ -6,6 +6,7 @@
 
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
+import { Reveal } from "@/components/ui/Reveal";
 import { pageMetadata } from "@/lib/seo";
 import { site } from "@/content/site";
 
@@ -19,18 +20,20 @@ export const metadata = pageMetadata({
 export default function PrivacyPage() {
   return (
     <Section space="default">
-      <Heading as="h1" size="title">
-        Privacy policy
-      </Heading>
-      <p className="measure mt-5 text-lead text-muted">
-        Last updated {site.founded}. This policy is written by Kishoreganj
-        Consultancy LLC (Wyoming, USA), the contracting entity for
-        kgcons.org, for both Kishoreganj Consultancy LLC and Kishoreganj
-        Consultancy Ltd (Bangladesh).
-      </p>
+      <Reveal>
+        <Heading as="h1" size="title">
+          Privacy policy
+        </Heading>
+        <p className="measure mt-5 text-lead text-muted">
+          Last updated {site.founded}. This policy is written by Kishoreganj
+          Consultancy LLC (Wyoming, USA), the contracting entity for
+          kgcons.org, for both Kishoreganj Consultancy LLC and Kishoreganj
+          Consultancy Ltd (Bangladesh).
+        </p>
+      </Reveal>
 
       <div className="measure mt-14 space-y-10 border-t border-hairline pt-10 text-body text-muted">
-        <div>
+        <Reveal delay={0}>
           <Heading as="h2" size="subheading" className="text-ink">
             What we collect
           </Heading>
@@ -45,9 +48,9 @@ export default function PrivacyPage() {
             We don't run analytics or tracking software on this site. If
             that changes, we'll update this policy first.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={60}>
           <Heading as="h2" size="subheading" className="text-ink">
             How we use it
           </Heading>
@@ -57,9 +60,9 @@ export default function PrivacyPage() {
             don't use your data for our own marketing or content, and we
             don't sell or share it with third parties.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={120}>
           <Heading as="h2" size="subheading" className="text-ink">
             How long we keep it
           </Heading>
@@ -68,9 +71,9 @@ export default function PrivacyPage() {
             engagement ends, unless we're required to keep it longer for a
             legal or tax reason.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={180}>
           <Heading as="h2" size="subheading" className="text-ink">
             Using your project as a reference
           </Heading>
@@ -81,9 +84,9 @@ export default function PrivacyPage() {
             and identifying details are removed. We won't do this without
             asking first.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={240}>
           <Heading as="h2" size="subheading" className="text-ink">
             Contact
           </Heading>
@@ -97,7 +100,7 @@ export default function PrivacyPage() {
             </a>
             .
           </p>
-        </div>
+        </Reveal>
       </div>
     </Section>
   );

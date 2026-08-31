@@ -6,6 +6,7 @@
 
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
+import { Reveal } from "@/components/ui/Reveal";
 import { pageMetadata } from "@/lib/seo";
 import { site } from "@/content/site";
 import { guarantee } from "@/content/guarantee";
@@ -20,17 +21,19 @@ export const metadata = pageMetadata({
 export default function TermsPage() {
   return (
     <Section space="default">
-      <Heading as="h1" size="title">
-        Terms of service
-      </Heading>
-      <p className="measure mt-5 text-lead text-muted">
-        Last updated {site.founded}. These terms are between you and
-        Kishoreganj Consultancy LLC (Wyoming, USA), the contracting entity
-        for kgcons.org.
-      </p>
+      <Reveal>
+        <Heading as="h1" size="title">
+          Terms of service
+        </Heading>
+        <p className="measure mt-5 text-lead text-muted">
+          Last updated {site.founded}. These terms are between you and
+          Kishoreganj Consultancy LLC (Wyoming, USA), the contracting entity
+          for kgcons.org.
+        </p>
+      </Reveal>
 
       <div className="measure mt-14 space-y-10 border-t border-hairline pt-10 text-body text-muted">
-        <div>
+        <Reveal delay={0}>
           <Heading as="h2" size="subheading" className="text-ink">
             What we provide
           </Heading>
@@ -39,9 +42,9 @@ export default function TermsPage() {
             guidance — you or your team decide what to act on and carry it
             out. We don't manage, post to, or take control of your accounts.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={60}>
           <Heading as="h2" size="subheading" className="text-ink">
             No guaranteed outcomes
           </Heading>
@@ -51,9 +54,9 @@ export default function TermsPage() {
             your own execution are outside our control. What we do
             guarantee is scope of work: {guarantee.short}
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={120}>
           <Heading as="h2" size="subheading" className="text-ink">
             Fees
           </Heading>
@@ -63,9 +66,9 @@ export default function TermsPage() {
             live-session answers, this means a price quoted on the spot
             before we begin work on your question.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={180}>
           <Heading as="h2" size="subheading" className="text-ink">
             Governing law
           </Heading>
@@ -73,9 +76,9 @@ export default function TermsPage() {
             These terms are governed by the laws of the State of Wyoming,
             USA, without regard to conflict-of-law principles.
           </p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={240}>
           <Heading as="h2" size="subheading" className="text-ink">
             Contact
           </Heading>
@@ -89,7 +92,7 @@ export default function TermsPage() {
             </a>
             .
           </p>
-        </div>
+        </Reveal>
       </div>
     </Section>
   );

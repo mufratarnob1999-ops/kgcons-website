@@ -1,12 +1,13 @@
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
 import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 import { finalCta } from "@/content/home";
 
 export function FinalCta() {
   return (
     <Section space="generous" divided>
-      <div className="mx-auto max-w-2xl text-center">
+      <Reveal className="mx-auto max-w-2xl text-center">
         <Heading as="h2" size="title">
           {finalCta.heading}
         </Heading>
@@ -21,7 +22,7 @@ export function FinalCta() {
             {finalCta.secondaryCta.label}
           </Button>
         </div>
-      </div>
+      </Reveal>
     </Section>
   );
 }

@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
 import { Button } from "@/components/ui/Button";
+import { Reveal } from "@/components/ui/Reveal";
 import { pageMetadata } from "@/lib/seo";
 import { site, whatsappLink } from "@/content/site";
 import { guarantee } from "@/content/guarantee";
@@ -19,19 +20,21 @@ export default function ConsultationPage() {
   return (
     <>
       <Section space="compact">
-        <Heading as="h1" size="title">
-          Book a consultation
-        </Heading>
-        <p className="measure mt-5 text-lead text-muted">
-          A scheduled one-to-one call with a consultant. You bring the
-          problem, we work through it together, and you leave with specific
-          next steps rather than general advice.
-        </p>
+        <Reveal>
+          <Heading as="h1" size="title">
+            Book a consultation
+          </Heading>
+          <p className="measure mt-5 text-lead text-muted">
+            A scheduled one-to-one call with a consultant. You bring the
+            problem, we work through it together, and you leave with specific
+            next steps rather than general advice.
+          </p>
+        </Reveal>
       </Section>
 
       <Section space="default" divided>
         <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-6">
+          <Reveal className="md:col-span-6">
             <Heading as="h2" size="heading">
               What it costs
             </Heading>
@@ -52,8 +55,8 @@ export default function ConsultationPage() {
               The fee is agreed with you before the call is booked — never
               after. Most questions are settled in a single hour.
             </p>
-          </div>
-          <div className="md:col-span-5 md:col-start-8">
+          </Reveal>
+          <Reveal delay={120} className="md:col-span-5 md:col-start-8">
             <Heading as="h2" size="heading">
               How to book
             </Heading>
@@ -78,27 +81,31 @@ export default function ConsultationPage() {
                 Message on Telegram
               </Button>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
       <Section space="default" tone="surface" divided width="narrow">
-        <Heading as="h2" size="heading">
-          {guarantee.heading}
-        </Heading>
-        <p className="measure mt-4 text-body text-muted">
-          {guarantee.short} {guarantee.detail}
-        </p>
+        <Reveal>
+          <Heading as="h2" size="heading">
+            {guarantee.heading}
+          </Heading>
+          <p className="measure mt-4 text-body text-muted">
+            {guarantee.short} {guarantee.detail}
+          </p>
+        </Reveal>
       </Section>
 
       <Section space="default" divided width="narrow">
-        <Heading as="h2" size="heading">
-          How to pay
-        </Heading>
-        <p className="measure mt-4 text-body text-muted">
-          Zelle Business, Venmo Business or PayPal Business. Card, Apple Pay
-          and Google Pay are planned but not available yet.
-        </p>
+        <Reveal>
+          <Heading as="h2" size="heading">
+            How to pay
+          </Heading>
+          <p className="measure mt-4 text-body text-muted">
+            Zelle Business, Venmo Business or PayPal Business. Card, Apple Pay
+            and Google Pay are planned but not available yet.
+          </p>
+        </Reveal>
       </Section>
     </>
   );
