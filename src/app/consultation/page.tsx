@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/Button";
 import { pageMetadata } from "@/lib/seo";
 import { site, whatsappLink } from "@/content/site";
 import { guarantee } from "@/content/guarantee";
+import { engagements } from "@/content/services";
 
 export const metadata = pageMetadata({
   title: "Book a consultation",
   description:
-    "A one-to-one consultation call with a Kishoreganj Consultancy consultant, $50–100 an hour, booked by email, WhatsApp or Telegram.",
+    "A one-to-one consultation call with a Kishoreganj Consultancy consultant, from $10 an hour, booked by email, WhatsApp or Telegram.",
   path: "/consultation",
 });
+
+const consultation = engagements.find((e) => e.name === "Consultation call")!;
 
 export default function ConsultationPage() {
   return (
@@ -32,11 +35,22 @@ export default function ConsultationPage() {
             <Heading as="h2" size="heading">
               What it costs
             </Heading>
-            <p className="mt-4 text-lead text-ink">$50–100 per hour</p>
-            <p className="measure mt-3 text-body text-muted">
-              The fee depends on scope, and is agreed with you before the
-              call is booked — never after. Most questions are settled in a
-              single hour.
+            <ul className="mt-6 space-y-4 border-t border-hairline pt-6">
+              {consultation.rates!.map((rate) => (
+                <li
+                  key={rate.label}
+                  className="flex items-baseline justify-between gap-6"
+                >
+                  <span className="text-small text-muted">{rate.label}</span>
+                  <span className="whitespace-nowrap text-body text-ink">
+                    {rate.price}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="measure mt-6 text-body text-muted">
+              The fee is agreed with you before the call is booked — never
+              after. Most questions are settled in a single hour.
             </p>
           </div>
           <div className="md:col-span-5 md:col-start-8">
@@ -82,8 +96,8 @@ export default function ConsultationPage() {
           How to pay
         </Heading>
         <p className="measure mt-4 text-body text-muted">
-          Zelle Business, Venmo Business or PayPal. Card, Apple Pay and
-          Google Pay are planned but not available yet.
+          Zelle Business, Venmo Business or PayPal Business. Card, Apple Pay
+          and Google Pay are planned but not available yet.
         </p>
       </Section>
     </>

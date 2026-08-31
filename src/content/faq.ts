@@ -8,7 +8,7 @@ export const faq = [
   {
     question: "What does a consultation cost?",
     answer:
-      "$50–100 an hour, depending on scope. The fee is agreed before you book, so there's no surprise at the end of the call.",
+      "$150 an hour in person in New York City or Wyoming, $120 an hour online with a US-based consultant, or $10–150 an hour with an offshore consultant. The fee is agreed before you book.",
   },
   {
     question: "Do I have to pay to ask a question?",
@@ -42,7 +42,7 @@ export const faq = [
   {
     question: "How do I pay?",
     answer:
-      "Zelle Business, Venmo Business or PayPal. Card, Apple Pay and Google Pay are coming soon.",
+      "Zelle Business, Venmo Business or PayPal Business. Card, Apple Pay and Google Pay are coming soon.",
   },
   {
     question: "How quickly can we start?",

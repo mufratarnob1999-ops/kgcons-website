@@ -95,23 +95,38 @@ export const services: Service[] = [
   },
 ];
 
+export type Rate = { label: string; price: string };
+
 /** How people can work with us. Three routes, deliberately different. */
-export const engagements = [
+export const engagements: {
+  name: string;
+  price: string;
+  description: string;
+  detail: string;
+  cta: { label: string; href: string };
+  rates?: Rate[];
+}[] = [
   {
     name: "Live sessions",
     price: "Free, or $5–50 for detailed answers",
     description:
       "Our consultants go live on Instagram, Facebook and TikTok most days and answer questions from anyone watching. Straightforward questions are answered free. Anything that needs real work is quoted on the spot before we start.",
-    detail: "Payment by Zelle Business, Venmo Business or PayPal.",
+    detail: "Payment by Zelle Business, Venmo Business or PayPal Business.",
     cta: { label: "Find us on live", href: "/contact" },
   },
   {
     name: "Consultation call",
-    price: "$50–100 per hour",
+    price: "$120–150 per hour",
     description:
       "A scheduled one-to-one call with a consultant. You bring the problem, we work through it together, and you leave with specific next steps rather than general advice. Most questions are settled in a single hour.",
-    detail: "Booked by email, WhatsApp or Telegram. Card payment coming soon.",
+    detail:
+      "Offshore consultants are also available from $10 an hour. Booked by email, WhatsApp or Telegram.",
     cta: { label: "Book a consultation", href: "/consultation" },
+    rates: [
+      { label: "In person — New York City or Wyoming", price: "$150 / hour" },
+      { label: "Online — US-based consultant", price: "$120 / hour" },
+      { label: "Online — offshore consultant", price: "$10–150 / hour" },
+    ],
   },
   {
     name: "Ongoing advisory",
