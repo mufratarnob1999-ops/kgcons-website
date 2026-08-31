@@ -1,6 +1,6 @@
 # Kishoreganj Consultancy — kgcons.org
 
-Next.js 15 + TypeScript + Tailwind CSS v4.
+Next.js 16.3.3 + TypeScript + Tailwind CSS v4.
 
 ## Running the site on your computer
 
@@ -29,5 +29,6 @@ Visit http://localhost:3000/style-guide to review the design system.
 
 ## Not built yet
 
-Homepage sections, services, packages and pricing, payments, consultation
-booking. These are planned but deliberately not implemented.
+Payments (Stripe), a booking calendar, and the Student Consultancy division
+(`/student`). These are deliberately not implemented — see
+`DECISIONS_NEEDED.md` for what the owner should review before launch.
