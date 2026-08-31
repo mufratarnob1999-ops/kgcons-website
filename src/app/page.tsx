@@ -1,30 +1,16 @@
-import { Section } from "@/components/ui/Section";
-import { Heading } from "@/components/ui/Heading";
-import { Button } from "@/components/ui/Button";
+import { Hero } from "@/components/sections/Hero";
 
 /*
-  TEMPORARY PLACEHOLDER.
+  The homepage is assembled from section components, one per band of the
+  page. Sections are added here in the order they appear.
 
-  The homepage sections (hero, positioning, services, methodology,
-  perspective, consultation, about, FAQ) will replace this file entirely.
-  Nothing here is intended for launch.
+  Still to come: positioning, services, methodology, perspective,
+  engagements, consultation, about, FAQ, final call to action.
 */
 export default function HomePage() {
   return (
-    <Section space="generous">
-      <Heading as="h1" size="title">
-        Foundation in place.
-      </Heading>
-      <p className="measure mt-6 text-lead text-muted">
-        The layout, typography and colour system are built. Homepage content
-        has not been written yet. Open the style guide to review the visual
-        system before we build on top of it.
-      </p>
-      <div className="mt-10 flex flex-wrap gap-3">
-        <Button href="/style-guide" variant="solid" size="lg">
-          Open the style guide
-        </Button>
-      </div>
-    </Section>
+    <>
+      <Hero />
+    </>
   );
 }
