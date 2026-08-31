@@ -59,8 +59,18 @@ export const site = {
     ],
   },
 
-  /* Add real profiles here as they go live. Empty entries are not rendered. */
-  social: [] as { label: string; href: string }[],
+  /**
+   * Real, external same-entity profiles only — this feeds the JSON-LD
+   * `sameAs` field, which should never point at our own site. The visible
+   * icon row (footer, /contact) is separate — see socialIcons.ts — because
+   * it currently shows placeholder icons that aren't live profiles yet.
+   */
+  social: [
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/p/Kishoreganj-Consultancy-61594207731801/",
+    },
+  ] as { label: string; href: string }[],
 } as const;
 
 /** WhatsApp deep link for a given number, with the message pre-filled. */

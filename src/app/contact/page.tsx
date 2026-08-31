@@ -2,6 +2,7 @@ import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
 import { pageMetadata } from "@/lib/seo";
 import { site, whatsappLink } from "@/content/site";
+import { SocialIcons } from "@/components/layout/SocialIcons";
 
 export const metadata = pageMetadata({
   title: "Contact",
@@ -79,6 +80,16 @@ export default function ContactPage() {
           We work in English, Bangla, Hindi, Urdu and Spanish — reach out in
           whichever you're most comfortable with.
         </p>
+      </Section>
+
+      <Section space="default" divided>
+        <Heading as="h2" size="heading">
+          Social
+        </Heading>
+        <p className="measure mt-4 text-body text-muted">
+          Facebook, Instagram and TikTok — where our live sessions happen.
+        </p>
+        <SocialIcons className="mt-8" />
       </Section>
     </>
   );

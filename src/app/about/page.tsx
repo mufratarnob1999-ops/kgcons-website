@@ -27,12 +27,17 @@ export default function AboutPage() {
         </Heading>
         <ul className="mt-10 grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2">
           {site.founders.map((founder) => (
-            <li key={founder.name}>
-              <Heading as="h3" size="subheading">
-                {founder.name}
-              </Heading>
-              <p className="mt-1 text-small text-accent">{founder.role}</p>
-              <p className="mt-3 text-body text-muted">{founder.background}</p>
+            <li key={founder.name} className="grid grid-cols-[6rem_1fr] gap-5">
+              <FounderPhotoFrame name={founder.name} />
+              <div>
+                <Heading as="h3" size="subheading">
+                  {founder.name}
+                </Heading>
+                <p className="mt-1 text-small text-accent">{founder.role}</p>
+                <p className="mt-3 text-body text-muted">
+                  {founder.background}
+                </p>
+              </div>
             </li>
           ))}
         </ul>
@@ -93,5 +98,25 @@ export default function AboutPage() {
         </p>
       </Section>
     </>
+  );
+}
+
+/**
+ * A reserved photo slot — no image yet, just initials, so the layout
+ * reads as intentional rather than broken until a real photo is added.
+ */
+function FounderPhotoFrame({ name }: { name: string }) {
+  const parts = name.split(" ");
+  const initials = `${parts[0][0]}${parts[parts.length - 1][0]}`;
+
+  return (
+    <div className="flex aspect-[4/5] w-full flex-col items-center justify-center gap-2 rounded-edge border border-hairline bg-surface">
+      <span className="font-display text-heading text-neutral">
+        {initials}
+      </span>
+      <span className="text-label tracking-[0.08em] text-muted uppercase">
+        Photo
+      </span>
+    </div>
   );
 }

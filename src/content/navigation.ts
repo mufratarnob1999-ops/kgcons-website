@@ -47,6 +47,7 @@ export const footerNav: { heading: string; links: NavLink[] }[] = [
     links: [
       { label: "Privacy", href: "/legal/privacy" },
       { label: "Terms", href: "/legal/terms" },
+      { label: "Refund policy", href: "/legal/refund" },
     ],
   },
 ];

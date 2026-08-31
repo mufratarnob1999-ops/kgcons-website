@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { footerNav } from "@/content/navigation";
 import { site } from "@/content/site";
 import { Wordmark } from "./Wordmark";
+import { SocialIcons } from "./SocialIcons";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -31,6 +32,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <SocialIcons className="mt-6" />
           </div>
 
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:col-span-6 md:col-start-7">
