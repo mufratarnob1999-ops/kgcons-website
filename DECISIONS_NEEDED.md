@@ -1,6 +1,7 @@
 # Decisions needed from the owner
 
-## Resolved
+All resolved as of this pass. Kept here as a record of what was decided and
+why, in case it needs revisiting.
 
 1. **Guarantee wording** — confirmed. Keeping the scope guarantee ("if we
    don't deliver what we agreed to deliver, you get your money back"), not
@@ -14,21 +15,18 @@
    $10–150/hr online with an offshore consultant. Live-session pricing
    ($5–50 for detailed answers) is unchanged — that's a separate product,
    not addressed by this update.
+5. **The logo** — remade as a vector mark (`LogoMark.tsx`): a simplified
+   five-blade turbine, an eight-tooth gear ring, the inlet horn, and a
+   lime-accent hub, redrawn from the original artwork. Being vector, it
+   stays crisp at any size instead of the fine printed detail of the
+   original blurring out at header height. Now live in the header and
+   footer, replacing the text-only wordmark. If the original artwork
+   should also appear somewhere at full detail (e.g. the About page), say
+   so.
 6. **Payment methods** — confirmed: Zelle Business, Venmo Business, PayPal
    Business. Copy updated to say "PayPal Business" specifically.
-
-## Still open
-
-### 5. The logo
-
-You sent the turbocharger/gear logo. Not yet applied anywhere — see my
-message for the design question this raises (it's a detailed line-art mark,
-and the brief itself flagged it as unlikely to survive scaling to a small
-header). Waiting on direction for where it should go.
-
-### New: Humaan.com theme reference
-
-You asked to use humaan.com's theme if possible. Not yet applied — this is
-a significant departure from the dark, restrained, near-square-corner
-system already built and approved (globals.css, Hero.tsx). See my message
-for the specific conflict and the options I'm proposing.
+7. **Theme direction (humaan.com)** — confirmed: borrow structural moves,
+   not the visual style. The dark palette, near-square corners and
+   restrained motion stay as built; no light-mode pivot, no new animation
+   dependency. This is standing guidance for how new sections get designed
+   going forward, not a retrofit of what's already built.
