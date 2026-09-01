@@ -3,7 +3,12 @@ import type { NextRequest, NextResponse } from "next/server";
 import { getDb } from "./db";
 
 const SESSION_DAYS = 30;
-const PBKDF2_ITERATIONS = 210_000;
+/* Cloudflare Workers caps crypto.subtle PBKDF2 at 100,000 iterations —
+   confirmed against the real deployed Worker (this runs fine under plain
+   `next dev`, which uses a different crypto backend without that cap, so
+   the limit only surfaces once actually deployed). 100,000 is Workers'
+   ceiling, not a security choice — use the max the platform allows. */
+const PBKDF2_ITERATIONS = 100_000;
 
 export const SESSION_COOKIE_NAME = "kg_session";
 export const SESSION_COOKIE_MAX_AGE = SESSION_DAYS * 24 * 60 * 60;
