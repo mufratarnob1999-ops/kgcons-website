@@ -7,6 +7,7 @@ import { getDb } from "@/lib/db";
 import { getSessionFromCookies } from "@/lib/auth";
 import { AppointmentList } from "@/components/booking/AppointmentList";
 import { LogoutButton } from "@/components/forms/LogoutButton";
+import { DeleteAccountSection } from "@/components/forms/DeleteAccountSection";
 
 export const metadata = pageMetadata({
   title: "Your account",
@@ -54,6 +55,10 @@ export default async function AccountPage() {
       </Reveal>
       <div className="mt-12">
         <AppointmentList appointments={results ?? []} />
+      </div>
+
+      <div className="mt-20">
+        <DeleteAccountSection />
       </div>
     </Section>
   );
