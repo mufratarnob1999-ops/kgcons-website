@@ -34,22 +34,9 @@ why, in case it needs revisiting.
    dependency. This is standing guidance for how new sections get designed
    going forward, not a retrofit of what's already built.
 
-## Still needed: booking system email delivery
-
-The appointment booking system (`/schedule`, `/account`) is built, tested,
-and deployed in code, but **confirmation and cancellation emails won't
-send yet** — that needs a Resend account:
-
-1. Create an account at resend.com.
-2. Verify `kgcons.org` as a sending domain — Resend will show you DNS
-   records to add. Since DNS is already on Cloudflare, I can add them for
-   you (same process as the custom-domain setup) if you give me a scoped
-   API token, or you can add them yourself in the Cloudflare dashboard.
-3. Create an API key in Resend and give it to me. I'll set it as a
-   Wrangler secret (`wrangler secret put RESEND_API_KEY`) — never in the
-   repo.
-
-Until that's done, bookings and cancellations still work correctly (the
-slot reserves/frees either way) — clients just won't get an email
-confirming it. The code checks for a missing key and skips sending rather
-than erroring, so nothing breaks in the meantime.
+8. **Booking system email delivery (Resend)** — done. Account created,
+   `kgcons.org` verified as a sending domain, API key set as a Wrangler
+   secret (`RESEND_API_KEY`, not in the repo) and in `.dev.vars` for local
+   dev. Verified with a real test send to mufrat@kgcons.org — delivered
+   successfully. Booking and cancellation confirmation emails are fully
+   live.
