@@ -40,6 +40,14 @@ why, in case it needs revisiting.
    dev. Verified with a real test send to mufrat@kgcons.org — delivered
    successfully. Booking and cancellation confirmation emails are fully
    live.
+9. **Phone-based signup** — decided against. Email stays the only way to
+   create an account; no Twilio/SMS integration. Not revisiting unless
+   asked.
+10. **AI assistant model** — running on Cloudflare Workers AI (Llama 3.3
+    70B, free tier) rather than a paid Claude API key, to avoid a
+    per-question bill. Trade-off: a smaller open model is somewhat more
+    prone to imprecise answers than a top-tier one, so it's worth an
+    occasional spot-check of what it's telling visitors.
 
 ## Worth knowing: account deletion vs. the reviewed Privacy Policy
 
