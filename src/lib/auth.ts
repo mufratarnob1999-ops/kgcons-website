@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import type { NextRequest, NextResponse } from "next/server";
+import { getDb } from "./db";
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 210_000;
@@ -106,12 +107,19 @@ export async function destroySession(db: D1Database, token: string): Promise<voi
   await db.prepare("DELETE FROM sessions WHERE token = ?").bind(token).run();
 }
 
-/** For Server Components — `cookies()` is async since Next 15. */
-export async function getSessionFromCookies(
-  db: D1Database,
-): Promise<SessionUser | null> {
+/**
+ * For Server Components. Deliberately takes no `db` argument — it must
+ * call `cookies()` (a dynamic API Next recognizes) *before* getDb() runs
+ * getCloudflareContext() in sync mode, or Next tries to statically
+ * prerender the page and that sync call throws. Import `getDb` here
+ * rather than making the caller pass it in, so this ordering can't be
+ * accidentally broken at the call site.
+ */
+export async function getSessionFromCookies(): Promise<SessionUser | null> {
   const store = await cookies();
-  return verifySessionToken(db, store.get(SESSION_COOKIE_NAME)?.value);
+  const token = store.get(SESSION_COOKIE_NAME)?.value;
+  if (!token) return null;
+  return verifySessionToken(getDb(), token);
 }
 
 /** For Route Handlers. */
