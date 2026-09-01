@@ -72,6 +72,18 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/account"
+              aria-current={pathname === "/account" ? "page" : undefined}
+              className={cn(
+                "text-small transition-colors duration-150 ease-standard",
+                pathname === "/account"
+                  ? "text-ink"
+                  : "text-muted hover:text-ink",
+              )}
+            >
+              Account
+            </Link>
             <Button href={primaryCta.href} variant="solid" size="md">
               {primaryCta.label}
             </Button>
@@ -108,6 +120,12 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/account"
+                className="border-b border-hairline py-5 font-display text-heading text-ink"
+              >
+                Account
+              </Link>
               <Button
                 href={primaryCta.href}
                 variant="solid"

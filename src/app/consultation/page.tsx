@@ -10,7 +10,7 @@ import { engagements } from "@/content/services";
 export const metadata = pageMetadata({
   title: "Book a consultation",
   description:
-    "A one-to-one consultation call with a Kishoreganj Consultancy consultant, from $10 an hour, booked by email, WhatsApp or Telegram.",
+    "A one-to-one consultation call with a Kishoreganj Consultancy consultant, from $10 an hour. See real availability and book online.",
   path: "/consultation",
 });
 
@@ -61,11 +61,19 @@ export default function ConsultationPage() {
               How to book
             </Heading>
             <p className="measure mt-4 text-body text-muted">
-              There's no booking calendar yet — reach out directly and we'll
-              find a time that works.
+              See real availability and reserve a time online — you&rsquo;ll
+              need to log in to confirm.
             </p>
             <div className="mt-6 flex flex-col items-start gap-3">
-              <Button href={`mailto:${site.contact.email}`} variant="solid">
+              <Button href="/schedule" variant="solid">
+                See availability &amp; book
+              </Button>
+            </div>
+            <p className="mt-6 text-small text-muted">
+              Prefer to reach out directly instead?
+            </p>
+            <div className="mt-3 flex flex-col items-start gap-3">
+              <Button href={`mailto:${site.contact.email}`} variant="outline">
                 Email us
               </Button>
               <Button

@@ -47,6 +47,6 @@ export const faq = [
   {
     question: "How quickly can we start?",
     answer:
-      "Live sessions run most days, so you can get an answer today. Calls are booked by arrangement, usually within a few days.",
+      "Live sessions run most days, so you can get an answer today. Consultation calls can be booked online for an open slot the same week.",
   },
 ] as const;
