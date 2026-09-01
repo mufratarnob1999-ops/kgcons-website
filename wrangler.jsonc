@@ -22,6 +22,9 @@
       "migrations_dir": "migrations"
     }
   ],
+  "ai": {
+    "binding": "AI"
+  },
   "vars": {
     "ADMIN_EMAIL": "mufrat@kgcons.org"
   }

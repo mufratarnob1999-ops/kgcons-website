@@ -1,14 +1,16 @@
-import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { getEnv } from "@/lib/db";
 import { isTrustedOrigin } from "@/lib/auth";
 import { buildSystemPrompt } from "@/lib/assistant-context";
 
-/* Cost/abuse guardrails — this endpoint spends real money per request,
-   unlike the rest of the site's free-tier services. */
+/* Cost/abuse guardrails — Workers AI's free daily allowance is finite even
+   though there's no per-request bill, and a runaway conversation still
+   costs real inference time. */
 const MAX_MESSAGE_LENGTH = 600;
 const MAX_HISTORY_MESSAGES = 8;
 const MAX_TOKENS = 400;
+
+const MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -28,18 +30,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "invalid_origin" }, { status: 403 });
   }
 
-  const apiKey = getEnv().ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      {
-        error: "not_configured",
-        reply:
-          "The assistant isn't switched on yet — try /contact or /schedule in the meantime.",
-      },
-      { status: 200 },
-    );
-  }
-
   const body = (await request.json().catch(() => null)) as Record<
     string,
     unknown
@@ -55,24 +45,25 @@ export async function POST(request: NextRequest) {
     .filter(isChatMessage)
     .slice(-MAX_HISTORY_MESSAGES);
 
-  const client = new Anthropic({ apiKey });
-
   try {
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5",
+    const result = await getEnv().AI.run(MODEL, {
+      messages: [
+        { role: "system", content: buildSystemPrompt() },
+        ...history,
+        { role: "user", content: message },
+      ],
       max_tokens: MAX_TOKENS,
-      system: buildSystemPrompt(),
-      messages: [...history, { role: "user", content: message }],
     });
 
-    const reply = response.content
-      .filter((block) => block.type === "text")
-      .map((block) => block.text)
-      .join("\n")
-      .trim();
+    const reply =
+      typeof result === "string"
+        ? result
+        : "response" in result && typeof result.response === "string"
+          ? result.response
+          : "";
 
     return NextResponse.json({
-      reply: reply || "Sorry, I couldn't put together an answer to that.",
+      reply: reply.trim() || "Sorry, I couldn't put together an answer to that.",
     });
   } catch {
     return NextResponse.json(
