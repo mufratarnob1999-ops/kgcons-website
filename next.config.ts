@@ -22,3 +22,8 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+/* Lets `next dev` run against the Cloudflare bindings declared in
+   wrangler.jsonc, so local dev matches the deployed Worker. */
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+initOpenNextCloudflareForDev();
