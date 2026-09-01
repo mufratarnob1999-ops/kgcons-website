@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import type { Track } from "@/lib/availability";
+import { formatFullDate, formatTimeLabel } from "@/lib/format";
 
 type DaySlots = {
   date: string;
@@ -26,23 +27,6 @@ function formatDateLabel(dateStr: string): { weekday: string; date: string } {
       timeZone: "UTC",
     }),
   };
-}
-
-function formatFullDate(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-}
-
-function formatTimeLabel(time: string): string {
-  const [h] = time.split(":").map(Number);
-  const hour12 = h % 12 === 0 ? 12 : h % 12;
-  const ampm = h < 12 ? "AM" : "PM";
-  return `${hour12}:00 ${ampm}`;
 }
 
 const TRACKS: { value: Track; label: string }[] = [

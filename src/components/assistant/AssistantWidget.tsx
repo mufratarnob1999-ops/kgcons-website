@@ -3,8 +3,30 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { formatFullDate, formatTimeLabel } from "@/lib/format";
 
-type Message = { role: "user" | "assistant"; content: string };
+type Track = "online" | "in_person";
+
+type PendingAction =
+  | { type: "propose_booking"; track: Track; date: string; time: string }
+  | {
+      type: "propose_cancel";
+      appointmentId: number;
+      track: Track;
+      date: string;
+      time: string;
+    };
+
+type ActionStatus = "pending" | "working" | "resolved" | "dismissed";
+
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+  action?: PendingAction;
+  actionStatus?: ActionStatus;
+  actionResult?: string;
+};
 
 const SUGGESTIONS = [
   "What does a consultation cost?",
@@ -13,6 +35,10 @@ const SUGGESTIONS = [
 ];
 
 const MAX_MESSAGE_LENGTH = 600;
+
+function trackLabel(track: Track) {
+  return track === "online" ? "Online" : "In person";
+}
 
 export function AssistantWidget() {
   const [open, setOpen] = useState(false);
@@ -46,6 +72,7 @@ export function AssistantWidget() {
     const trimmed = text.trim();
     if (!trimmed || trimmed.length > MAX_MESSAGE_LENGTH || loading) return;
 
+    const history = messages.map(({ role, content }) => ({ role, content }));
     const nextMessages: Message[] = [...messages, { role: "user", content: trimmed }];
     setMessages(nextMessages);
     setInput("");
@@ -55,17 +82,19 @@ export function AssistantWidget() {
       const res = await fetch("/api/assistant/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: trimmed,
-          history: messages,
-        }),
+        body: JSON.stringify({ message: trimmed, history }),
       });
-      const data = (await res.json().catch(() => null)) as { reply?: string } | null;
+      const data = (await res.json().catch(() => null)) as {
+        reply?: string;
+        action?: PendingAction;
+      } | null;
       setMessages([
         ...nextMessages,
         {
           role: "assistant",
           content: data?.reply || "Sorry, something went wrong. Try again.",
+          action: data?.action,
+          actionStatus: data?.action ? "pending" : undefined,
         },
       ]);
     } catch {
@@ -75,6 +104,75 @@ export function AssistantWidget() {
       ]);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function updateMessageAt(index: number, patch: Partial<Message>) {
+    setMessages((prev) =>
+      prev.map((m, i) => (i === index ? { ...m, ...patch } : m)),
+    );
+  }
+
+  async function confirmAction(index: number, action: PendingAction) {
+    updateMessageAt(index, { actionStatus: "working" });
+    try {
+      const res =
+        action.type === "propose_booking"
+          ? await fetch("/api/appointments", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                date: action.date,
+                time: action.time,
+                track: action.track,
+              }),
+            })
+          : await fetch(`/api/appointments/${action.appointmentId}/cancel`, {
+              method: "POST",
+            });
+
+      if (res.status === 401) {
+        updateMessageAt(index, {
+          actionStatus: "resolved",
+          actionResult:
+            "You'll need to be logged in to do that — log in and ask me again.",
+        });
+        return;
+      }
+      if (res.status === 409) {
+        updateMessageAt(index, {
+          actionStatus: "resolved",
+          actionResult: "That slot was just taken — ask me to check availability again.",
+        });
+        return;
+      }
+      if (res.status === 404) {
+        updateMessageAt(index, {
+          actionStatus: "resolved",
+          actionResult: "That appointment couldn't be found — it may already be cancelled.",
+        });
+        return;
+      }
+      if (!res.ok) {
+        updateMessageAt(index, {
+          actionStatus: "resolved",
+          actionResult: "Something went wrong. Try again.",
+        });
+        return;
+      }
+
+      updateMessageAt(index, {
+        actionStatus: "resolved",
+        actionResult:
+          action.type === "propose_booking"
+            ? "Booked. A confirmation is on its way to your email."
+            : "Cancelled. A confirmation is on its way to your email.",
+      });
+    } catch {
+      updateMessageAt(index, {
+        actionStatus: "resolved",
+        actionResult: "Something went wrong. Try again.",
+      });
     }
   }
 
@@ -158,6 +256,49 @@ export function AssistantWidget() {
                         {m.role === "user" ? "You" : "Kishoreganj"}
                       </p>
                       <p className="whitespace-pre-wrap">{m.content}</p>
+
+                      {m.action && m.actionStatus && m.actionStatus !== "dismissed" && (
+                        <div className="mt-3 rounded-edge border border-hairline bg-canvas p-4">
+                          <p className="text-small text-ink">
+                            {m.action.type === "propose_booking"
+                              ? "Confirm booking"
+                              : "Confirm cancellation"}
+                            : {formatFullDate(m.action.date)} at{" "}
+                            {formatTimeLabel(m.action.time)} Eastern —{" "}
+                            {trackLabel(m.action.track)}
+                          </p>
+
+                          {m.actionStatus === "resolved" ? (
+                            <p className="mt-2 text-small text-muted">
+                              {m.actionResult}
+                            </p>
+                          ) : (
+                            <div className="mt-3 flex flex-wrap gap-3">
+                              <Button
+                                type="button"
+                                variant="solid"
+                                size="md"
+                                disabled={m.actionStatus === "working"}
+                                onClick={() => confirmAction(i, m.action!)}
+                              >
+                                {m.actionStatus === "working"
+                                  ? "Working…"
+                                  : "Confirm"}
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="quiet"
+                                disabled={m.actionStatus === "working"}
+                                onClick={() =>
+                                  updateMessageAt(i, { actionStatus: "dismissed" })
+                                }
+                              >
+                                Dismiss
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                   {loading && (

@@ -16,15 +16,25 @@ export const SLOT_TIMES = [
 ] as const;
 export type SlotTime = (typeof SLOT_TIMES)[number];
 
+const DATE_FORMAT = /^\d{4}-\d{2}-\d{2}$/;
+
 function dayOfWeekUTC(dateStr: string): number {
   const [y, m, d] = dateStr.split("-").map(Number);
   return new Date(Date.UTC(y, m - 1, d)).getUTCDay();
 }
 
-/** Weekday (Mon–Fri) and not a US federal holiday. */
+/**
+ * Weekday (Mon–Fri), a real calendar date, and not a US federal holiday.
+ * The strict format check matters beyond cosmetics: without it, a
+ * malformed string (e.g. "this Wednesday" from an LLM tool call that
+ * failed to resolve a relative date) sorts as greater than any real
+ * YYYY-MM-DD string, so the isPastSlot string comparison below would
+ * silently treat it as a valid future date instead of getting rejected.
+ */
 export function isBookableWeekday(dateStr: string): boolean {
+  if (!DATE_FORMAT.test(dateStr)) return false;
   const dow = dayOfWeekUTC(dateStr);
-  if (dow === 0 || dow === 6) return false;
+  if (Number.isNaN(dow) || dow === 0 || dow === 6) return false;
   return !isFederalHoliday(dateStr);
 }
 
