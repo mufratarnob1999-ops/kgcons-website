@@ -29,11 +29,13 @@ export const site = {
       name: "Mufrat Mehrin Arnob",
       role: "Founder",
       background: "BSc Cybersecurity, CUNY. Diploma in Civil Engineering.",
+      photo: "/founders/mufrat.jpg",
     },
     {
       name: "Hojaifa Ahmed Seyam",
       role: "Founder",
       background: "BSc Biotechnology, CUNY.",
+      photo: "/founders/hojaifa.jpg",
     },
   ],
 

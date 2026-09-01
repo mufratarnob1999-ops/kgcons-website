@@ -31,22 +31,23 @@ export default function AboutPage() {
         <ul className="mt-10 grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2">
           {site.founders.map((founder, i) => (
             <li key={founder.name}>
-              <Reveal
-                delay={i * 100}
-                className="grid grid-cols-[6rem_1fr] gap-5"
-              >
-                <FounderPhotoFrame name={founder.name} />
-                <div>
-                  <Heading as="h3" size="subheading">
-                    {founder.name}
-                  </Heading>
-                  <p className="mt-1 text-small text-accent">
-                    {founder.role}
-                  </p>
-                  <p className="mt-3 text-body text-muted">
-                    {founder.background}
-                  </p>
+              <Reveal delay={i * 100}>
+                <div className="aspect-[4/5] w-full overflow-hidden rounded-edge border border-hairline bg-surface">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={founder.photo}
+                    alt={founder.name}
+                    className="h-full w-full object-cover object-top"
+                    loading="lazy"
+                  />
                 </div>
+                <Heading as="h3" size="subheading" className="mt-5">
+                  {founder.name}
+                </Heading>
+                <p className="mt-1 text-small text-accent">{founder.role}</p>
+                <p className="mt-3 text-body text-muted">
+                  {founder.background}
+                </p>
               </Reveal>
             </li>
           ))}
@@ -120,25 +121,5 @@ export default function AboutPage() {
         </Reveal>
       </Section>
     </>
-  );
-}
-
-/**
- * A reserved photo slot — no image yet, just initials, so the layout
- * reads as intentional rather than broken until a real photo is added.
- */
-function FounderPhotoFrame({ name }: { name: string }) {
-  const parts = name.split(" ");
-  const initials = `${parts[0][0]}${parts[parts.length - 1][0]}`;
-
-  return (
-    <div className="flex aspect-[4/5] w-full flex-col items-center justify-center gap-2 rounded-edge border border-hairline bg-surface">
-      <span className="font-display text-heading text-neutral">
-        {initials}
-      </span>
-      <span className="text-label tracking-[0.08em] text-muted uppercase">
-        Photo
-      </span>
-    </div>
   );
 }
