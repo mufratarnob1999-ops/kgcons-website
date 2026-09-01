@@ -15,6 +15,7 @@
   --color-muted: #969696; /* secondary text */
   --color-neutral: #d6d2c8; /* warm neutral, borders on light elements */
   --color-accent: #c7ff3d; /* used sparingly: one per screen */
+  --color-danger: #f87171; /* form validation errors only */
   --color-hairline: #1f1f1f; /* structural rules and dividers */
   --color-hairline-strong: #2a2a2a; /* hover state for hairlines */
 

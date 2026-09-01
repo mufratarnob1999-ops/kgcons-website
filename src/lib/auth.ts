@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import type { NextRequest } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 
 const SESSION_DAYS = 30;
 const PBKDF2_ITERATIONS = 210_000;
@@ -127,4 +127,30 @@ export function isTrustedOrigin(request: NextRequest): boolean {
   const origin = request.headers.get("origin");
   if (!origin) return true; // same-origin requests often omit Origin
   return origin === "https://kgcons.org" || origin === request.nextUrl.origin;
+}
+
+/** `secure` must be false over plain http (local dev) or browsers drop
+ * the cookie silently — pass `request.nextUrl.protocol === "https:"`. */
+export function setSessionCookie(
+  response: NextResponse,
+  token: string,
+  secure: boolean,
+): void {
+  response.cookies.set(SESSION_COOKIE_NAME, token, {
+    httpOnly: true,
+    secure,
+    sameSite: "lax",
+    path: "/",
+    maxAge: SESSION_COOKIE_MAX_AGE,
+  });
+}
+
+export function clearSessionCookie(response: NextResponse, secure: boolean): void {
+  response.cookies.set(SESSION_COOKIE_NAME, "", {
+    httpOnly: true,
+    secure,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
 }
