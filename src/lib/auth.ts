@@ -71,6 +71,12 @@ export async function verifyPassword(
   return diff === 0;
 }
 
+/** 6-digit email verification code, crypto-random (not Math.random). */
+export function generateOtpCode(): string {
+  const value = crypto.getRandomValues(new Uint32Array(1))[0] % 1_000_000;
+  return value.toString().padStart(6, "0");
+}
+
 function generateSessionToken(): string {
   return toBase64Url(crypto.getRandomValues(new Uint8Array(32)));
 }

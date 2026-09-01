@@ -38,8 +38,10 @@ export function SignupForm() {
         );
         return;
       }
-      router.push(next);
-      router.refresh();
+      // No session yet — signup now requires email verification first.
+      router.push(
+        `/account/verify?email=${encodeURIComponent(email)}&next=${encodeURIComponent(next)}`,
+      );
     } catch {
       setError("Something went wrong. Try again.");
     } finally {

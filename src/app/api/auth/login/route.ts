@@ -27,16 +27,25 @@ export async function POST(request: NextRequest) {
   const db = getDb();
   const user = await db
     .prepare(
-      "SELECT id, password_hash, password_salt FROM users WHERE email = ?",
+      "SELECT id, password_hash, password_salt, email_verified FROM users WHERE email = ?",
     )
     .bind(email)
-    .first<{ id: number; password_hash: string; password_salt: string }>();
+    .first<{
+      id: number;
+      password_hash: string;
+      password_salt: string;
+      email_verified: number;
+    }>();
 
   if (
     !user ||
     !(await verifyPassword(password, user.password_hash, user.password_salt))
   ) {
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
+  }
+
+  if (!user.email_verified) {
+    return NextResponse.json({ error: "not_verified" }, { status: 403 });
   }
 
   const { token } = await createSession(db, user.id);

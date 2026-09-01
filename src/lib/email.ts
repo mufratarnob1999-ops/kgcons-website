@@ -54,6 +54,22 @@ async function sendEmail(
   }
 }
 
+export async function sendVerificationCode(
+  env: CloudflareEnv,
+  args: { to: string; name: string; code: string },
+): Promise<void> {
+  await sendEmail(env, {
+    to: args.to,
+    subject: `${args.code} is your verification code`,
+    html: wrapEmail(`
+      <p>Hi ${args.name},</p>
+      <p>Your verification code is:</p>
+      <p style="font-weight: 700; font-size: 28px; letter-spacing: 4px;">${args.code}</p>
+      <p>This code expires in 10 minutes. If you didn't request this, you can ignore this email.</p>
+    `),
+  });
+}
+
 type AppointmentEmailArgs = {
   to: string;
   name: string;

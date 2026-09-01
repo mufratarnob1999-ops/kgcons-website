@@ -27,6 +27,15 @@ export function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
       if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        if (body?.error === "not_verified") {
+          router.push(
+            `/account/verify?email=${encodeURIComponent(email)}&next=${encodeURIComponent(next)}`,
+          );
+          return;
+        }
         setError("Incorrect email or password.");
         return;
       }

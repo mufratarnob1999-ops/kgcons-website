@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
-import {
-  hashPassword,
-  createSession,
-  isTrustedOrigin,
-  setSessionCookie,
-} from "@/lib/auth";
+import { getDb, getEnv } from "@/lib/db";
+import { hashPassword, isTrustedOrigin, generateOtpCode } from "@/lib/auth";
+import { sendVerificationCode } from "@/lib/email";
+
+const CODE_TTL_MINUTES = 10;
 
 export async function POST(request: NextRequest) {
   if (!isTrustedOrigin(request)) {
@@ -28,25 +26,50 @@ export async function POST(request: NextRequest) {
   const db = getDb();
 
   const existing = await db
-    .prepare("SELECT id FROM users WHERE email = ?")
+    .prepare("SELECT id, email_verified FROM users WHERE email = ?")
     .bind(email)
-    .first();
-  if (existing) {
+    .first<{ id: number; email_verified: number }>();
+
+  if (existing?.email_verified) {
     return NextResponse.json({ error: "email_taken" }, { status: 409 });
   }
 
   const { hash, salt } = await hashPassword(password);
-  const result = await db
+
+  if (existing) {
+    // An earlier signup attempt that never got verified — refresh it
+    // rather than blocking, since they never finished.
+    await db
+      .prepare(
+        "UPDATE users SET name = ?, password_hash = ?, password_salt = ? WHERE id = ?",
+      )
+      .bind(name, hash, salt, existing.id)
+      .run();
+  } else {
+    await db
+      .prepare(
+        "INSERT INTO users (email, name, password_hash, password_salt) VALUES (?, ?, ?, ?)",
+      )
+      .bind(email, name, hash, salt)
+      .run();
+  }
+
+  const code = generateOtpCode();
+  const expiresAt = new Date(
+    Date.now() + CODE_TTL_MINUTES * 60_000,
+  ).toISOString();
+  await db
     .prepare(
-      "INSERT INTO users (email, name, password_hash, password_salt) VALUES (?, ?, ?, ?)",
+      `INSERT INTO verification_codes (email, code, expires_at, attempts)
+       VALUES (?, ?, ?, 0)
+       ON CONFLICT(email) DO UPDATE SET
+         code = excluded.code, expires_at = excluded.expires_at, attempts = 0`,
     )
-    .bind(email, name, hash, salt)
+    .bind(email, code, expiresAt)
     .run();
 
-  const userId = result.meta.last_row_id as number;
-  const { token } = await createSession(db, userId);
+  await sendVerificationCode(getEnv(), { to: email, name, code });
 
-  const response = NextResponse.json({ ok: true });
-  setSessionCookie(response, token, request.nextUrl.protocol === "https:");
-  return response;
+  // No session yet — the account isn't usable until the code is verified.
+  return NextResponse.json({ ok: true, needsVerification: true });
 }
