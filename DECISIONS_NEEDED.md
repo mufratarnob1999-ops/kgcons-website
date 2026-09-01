@@ -40,3 +40,29 @@ why, in case it needs revisiting.
    dev. Verified with a real test send to mufrat@kgcons.org — delivered
    successfully. Booking and cancellation confirmation emails are fully
    live.
+
+## Worth knowing: account deletion vs. the reviewed Privacy Policy
+
+Clients can now permanently delete their own account and appointment
+history at any time from `/account` — immediately, no delay. This is
+genuinely good for clients, but it sits in a bit of tension with two
+things the attorney already reviewed and signed off on:
+
+- The Privacy Policy says data isn't kept past **six months**, "unless
+  we're required to keep it longer for a legal or tax reason." Self-service
+  deletion can now happen well before that six months, and before any
+  legal/tax retention need would normally kick in. Not a contradiction
+  exactly — the policy describes a maximum, not a minimum — but worth
+  knowing this exists now.
+- The Refund Policy gives clients **30 days** after delivery to flag a
+  problem. If a client deletes their account inside that window, the
+  business loses its own record of what was delivered and when — which
+  could matter if a payment dispute comes up later with no booking record
+  to point to.
+
+Not blocking anything, and I'm not second-guessing the "delete means
+delete" request — just flagging it since it wasn't part of what the
+attorney reviewed. If it's worth a note to them, or a small addition to
+the Privacy Policy mentioning this self-service right explicitly, that's
+your call — I didn't touch the legal pages themselves since they're
+already signed off.
