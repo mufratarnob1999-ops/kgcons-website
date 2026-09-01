@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 import { primaryNav, primaryCta } from "@/content/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { AssistantWidget } from "@/components/assistant/AssistantWidget";
 import { Wordmark } from "./Wordmark";
 
 export function Header() {
@@ -53,54 +54,58 @@ export function Header() {
         <div className="flex h-18 items-center justify-between md:h-20">
           <Wordmark />
 
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-9 md:flex"
-          >
-            {primaryNav.map((link) => (
+          <div className="flex items-center gap-1 md:gap-8">
+            <AssistantWidget />
+
+            <nav
+              aria-label="Primary"
+              className="hidden items-center gap-9 md:flex"
+            >
+              {primaryNav.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={cn(
+                    "text-small transition-colors duration-150 ease-standard",
+                    pathname === link.href
+                      ? "text-ink"
+                      : "text-muted hover:text-ink",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
               <Link
-                key={link.href}
-                href={link.href}
-                aria-current={pathname === link.href ? "page" : undefined}
+                href="/account"
+                aria-current={pathname === "/account" ? "page" : undefined}
                 className={cn(
                   "text-small transition-colors duration-150 ease-standard",
-                  pathname === link.href
+                  pathname === "/account"
                     ? "text-ink"
                     : "text-muted hover:text-ink",
                 )}
               >
-                {link.label}
+                Account
               </Link>
-            ))}
-            <Link
-              href="/account"
-              aria-current={pathname === "/account" ? "page" : undefined}
-              className={cn(
-                "text-small transition-colors duration-150 ease-standard",
-                pathname === "/account"
-                  ? "text-ink"
-                  : "text-muted hover:text-ink",
-              )}
-            >
-              Account
-            </Link>
-            <Button href={primaryCta.href} variant="solid" size="md">
-              {primaryCta.label}
-            </Button>
-          </nav>
+              <Button href={primaryCta.href} variant="solid" size="md">
+                {primaryCta.label}
+              </Button>
+            </nav>
 
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            className="-mr-2 flex h-11 w-11 items-center justify-center text-ink md:hidden"
-          >
-            <span className="sr-only">
-              {open ? "Close menu" : "Open menu"}
-            </span>
-            <MenuGlyph open={open} />
-          </button>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              className="-mr-2 flex h-11 w-11 items-center justify-center text-ink md:hidden"
+            >
+              <span className="sr-only">
+                {open ? "Close menu" : "Open menu"}
+              </span>
+              <MenuGlyph open={open} />
+            </button>
+          </div>
         </div>
       </Container>
 
