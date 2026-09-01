@@ -1,8 +1,4 @@
-/*
-  TODO(owner): This is a draft prepared without legal review. The company
-  operates two entities across two jurisdictions and handles personal data.
-  Have a US attorney review before launch.
-*/
+/* Reviewed by a US attorney — 2026-09-01. */
 
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";

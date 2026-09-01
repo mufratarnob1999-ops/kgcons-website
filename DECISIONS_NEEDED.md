@@ -7,9 +7,12 @@ why, in case it needs revisiting.
    don't deliver what we agreed to deliver, you get your money back"), not
    the original 70%-of-results wording.
 2. **Client-consent clause on the Privacy page** — confirmed as written.
-3. **Legal review** — owner will have an attorney review `/legal/privacy`,
-   `/legal/terms` and `/legal/refund` before publishing. The hidden
-   TODO(owner) comment stays at the top of each file until then.
+3. **Legal review** — done. A US attorney reviewed `/legal/privacy`,
+   `/legal/terms` and `/legal/refund` as drafted and approved them without
+   changes, including the three flagged questions (benchmarking consent,
+   the scope-guarantee wording, and cross-border data handling). The
+   pending-review comment in each file's code has been replaced with a
+   dated review note.
 4. **Consultation rates** — updated site-wide to the real rate card: $150/hr
    in person (NYC or Wyoming), $120/hr online with a US-based consultant,
    $10–150/hr online with an offshore consultant. Live-session pricing
