@@ -13,5 +13,16 @@
       "binding": "WORKER_SELF_REFERENCE",
       "service": "kgcons"
     }
-  ]
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kgcons-db",
+      "database_id": "abe18cf6-dfd5-4992-947b-b56c5658b869",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "ADMIN_EMAIL": "mufrat@kgcons.org"
+  }
 }
